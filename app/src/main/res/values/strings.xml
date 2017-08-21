@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Cam Controller</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="finding_service">Finding nearby services</string>
+
+    <!--For robo cam-->
+    <string name="picture">Picture</string>
+    <string name="description_info">Info</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="request_permission">Camera permission is required</string>
+    <string name="intro_message">Camera 2 API demo</string>
+    <string name="face_detection_disabled">Face detection disabled</string>
+    <string name="face_detection_enabled">Face detection enabled</string>
+    <string name="enable_face_detection">Enable face detection</string>
+    <string name="disable_face_detection">Disable face detection</string>
+    <string name="take_picture">take picture</string>
+</resources>
