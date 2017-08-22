@@ -26,6 +26,8 @@ public class ControllerFragment extends Fragment implements MainContract.Control
         view.findViewById(R.id.btn_take_pic).setOnClickListener(this);
         view.findViewById(R.id.btn_enable_face_detection).setOnClickListener(this);
         view.findViewById(R.id.btn_disable_face_detection).setOnClickListener(this);
+        view.findViewById(R.id.btn_enable_smile_to_snap).setOnClickListener(this);
+        view.findViewById(R.id.btn_disable_smile_to_snap).setOnClickListener(this);
         return view;
     }
 
@@ -61,6 +63,24 @@ public class ControllerFragment extends Fragment implements MainContract.Control
             case R.id.btn_disable_face_detection:
                 disableFaceDetection();
                 break;
+            case R.id.btn_enable_smile_to_snap:
+                enableSmileToSnap();
+                break;
+            case R.id.btn_disable_smile_to_snap:
+                disableSmileToSnap();
+                break;
+        }
+    }
+
+    private void disableSmileToSnap() {
+        if (camManager != null) {
+            camManager.write(AppConstant.DISABLE_SMILE_TO_SNAP.getBytes());
+        }
+    }
+
+    private void enableSmileToSnap() {
+        if (camManager != null) {
+            camManager.write(AppConstant.ENABLE_SMILE_TO_SNAP.getBytes());
         }
     }
 

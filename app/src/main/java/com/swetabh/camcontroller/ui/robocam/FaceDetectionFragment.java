@@ -45,13 +45,14 @@ public class FaceDetectionFragment extends Fragment
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int RC_HANDLE_GMS = 9001;
     private static final String TAG = FaceDetectionFragment.class.getSimpleName();
-
+    private final float SMILE_THRESHOLD = 0.5F;
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
     private MainContract.RoboCamPresenterContract mPresenter;
     private MainContract.ActivityCommunicator mCommunicator;
     private Context mContext;
     private CameraSource mCameraSource;
+    private boolean mSmileToSnap = false;
 
     public FaceDetectionFragment() {
         // Required empty public constructor
@@ -249,6 +250,16 @@ public class FaceDetectionFragment extends Fragment
         mGraphicOverlay.setVisibility(View.GONE);
     }
 
+    @Override
+    public void enableSmileToSnap() {
+        mSmileToSnap = true;
+    }
+
+    @Override
+    public void disableSmileToSnap() {
+        mSmileToSnap = false;
+    }
+
     /**
      * Factory for creating a face tracker to be associated with a new face.  The multiprocessor
      * uses this factory to create face trackers as needed -- one for each individual.
@@ -288,6 +299,10 @@ public class FaceDetectionFragment extends Fragment
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
+            Log.d(TAG, "smiling probability : " + face.getIsSmilingProbability());
+            if (mSmileToSnap && face.getIsSmilingProbability() > SMILE_THRESHOLD) {
+                takePic();
+            }
         }
 
         /**

@@ -14,11 +14,41 @@
 
         <Button
             android:id="@+id/btn_take_pic"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/margin_5"
+            android:layout_weight="1"
             android:background="@drawable/button_selector"
             android:padding="@dimen/margin_10"
             android:text="@string/take_picture" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_enable_smile_to_snap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:padding="@dimen/margin_10"
+                android:text="@string/enable_smile_to_snap" />
+
+            <Button
+                android:id="@+id/btn_disable_smile_to_snap"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
+                android:padding="@dimen/margin_10"
+                android:text="@string/enable_smile_to_snap" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

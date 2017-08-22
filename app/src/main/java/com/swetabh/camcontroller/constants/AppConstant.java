@@ -29,10 +29,12 @@ public class AppConstant {
     public static final int ACTION_GET = 0x400 + 1;
     public static final int ACTION_SEND = 0x400 + 2;
 
-    // Constants for camera
+    // ACTIONS for camera
     public static final String TAKE_PICTURE = "take_picture";
     public static final String ENABLE_FACE_DETECTION = "enable_face_detection";
     public static final String DISABLE_FACE_DETECTION = "disable_face_detection";
+    public static final String ENABLE_SMILE_TO_SNAP ="enable_smile_to_snap";
+    public static final String DISABLE_SMILE_TO_SNAP ="disable_smile_to_snap";
 
     //camera permission request code
     public static final int REQUEST_CAMERA_PERMISSION = 1;

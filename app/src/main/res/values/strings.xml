@@ -17,4 +17,5 @@
     <string name="enable_face_detection">Enable face detection</string>
     <string name="disable_face_detection">Disable face detection</string>
     <string name="take_picture">take picture</string>
+    <string name="enable_smile_to_snap">Enable smile to snap</string>
 </resources>

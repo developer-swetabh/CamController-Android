@@ -28,6 +28,10 @@ public class RoboCamPresenter extends BasePresenterImp<MainContract.RoboCamViewC
                 mView.enableFaceDetection();
             } else if (readAction.equals(AppConstant.DISABLE_FACE_DETECTION)) {
                 mView.disableFaceDetection();
+            } else if (readAction.equals(AppConstant.ENABLE_SMILE_TO_SNAP)) {
+                mView.enableSmileToSnap();
+            } else if (readAction.equals(AppConstant.DISABLE_SMILE_TO_SNAP)) {
+                mView.disableSmileToSnap();
             }
         }
     }

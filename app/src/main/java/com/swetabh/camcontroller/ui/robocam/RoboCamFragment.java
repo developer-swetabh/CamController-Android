@@ -982,6 +982,16 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
     }
 
     @Override
+    public void enableSmileToSnap() {
+        //In this Camera we dont have to do anything
+    }
+
+    @Override
+    public void disableSmileToSnap() {
+        // In this camera we don't have to do any thing
+    }
+
+    @Override
     public void startDiscovery() {
         mCommunicator.discoverService();
     }

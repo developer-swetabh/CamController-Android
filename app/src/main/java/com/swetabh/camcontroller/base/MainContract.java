@@ -63,6 +63,10 @@ public interface MainContract {
         void enableFaceDetection();
 
         void disableFaceDetection();
+
+        void enableSmileToSnap();
+
+        void disableSmileToSnap();
     }
 
     interface ControllerPresenterContract extends BasePresenter {
