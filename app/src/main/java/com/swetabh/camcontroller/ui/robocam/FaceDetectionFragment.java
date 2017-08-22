@@ -252,11 +252,13 @@ public class FaceDetectionFragment extends Fragment
 
     @Override
     public void enableSmileToSnap() {
+        Toast.makeText(mContext,getString(R.string.smile_to_snap_is_enabled),Toast.LENGTH_SHORT).show();
         mSmileToSnap = true;
     }
 
     @Override
     public void disableSmileToSnap() {
+        Toast.makeText(mContext,getString(R.string.smile_to_snap_is_disabled),Toast.LENGTH_SHORT).show();
         mSmileToSnap = false;
     }
 
