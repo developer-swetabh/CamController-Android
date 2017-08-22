@@ -46,6 +46,7 @@ import android.widget.Toast;
 import com.swetabh.camcontroller.R;
 import com.swetabh.camcontroller.base.MainContract;
 import com.swetabh.camcontroller.cammanager.CamManager;
+import com.swetabh.camcontroller.utils.ActivityUtil;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -186,6 +187,8 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
     * Whether the current camera device enable face detection or not
     * */
     private boolean mFaceDetectSupported = false;
+
+    private boolean mFaceDetectEnabled = false;
     /**
      * Orientation of the camera sensor
      */
@@ -202,7 +205,7 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
                 case STATE_PREVIEW: {
                     // We have nothing to do when the camera preview is working normally.
                     Face face[] = result.get(CaptureResult.STATISTICS_FACES);
-                    if (face.length > 0 && mFaceDetectSupported) {
+                    if (face.length > 0 && mFaceDetectSupported && mFaceDetectEnabled) {
                         Log.d(TAG, "face detected " + Integer.toString(face.length));
                         takePicture();
                     }
@@ -326,6 +329,7 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
 
     };
 
+
     /**
      * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
      * is at least as large as the respective texture view size, and that is at most as large as the
@@ -407,7 +411,9 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
         view.findViewById(R.id.picture).setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
         mTextureView = (TextureView) view.findViewById(R.id.texture);
+
     }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -457,7 +463,7 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void requestCameraPermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            new ConfirmationDialog().show(mCommunicator.getFragmentManagerFromActivity(), FRAGMENT_DIALOG);
+            ActivityUtil.showConfirmationDialog(getActivity(), mCommunicator.getFragmentManagerFromActivity());
         } else {
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     REQUEST_CAMERA_PERMISSION);
@@ -469,12 +475,16 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(mCommunicator.getFragmentManagerFromActivity(), FRAGMENT_DIALOG);
+                ActivityUtil.showErrorDialog(getActivity(), mCommunicator.getFragmentManagerFromActivity());
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
     }
 
     /**
@@ -602,8 +612,9 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.newInstance(getString(R.string.camera_error))
-                    .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+           /* ErrorDialog.newInstance(getString(R.string.camera_error))
+                    .show(getChildFragmentManager(), FRAGMENT_DIALOG);*/
+            ActivityUtil.showErrorDialog(getActivity(), mCommunicator.getFragmentManagerFromActivity());
         }
     }
 
@@ -960,13 +971,13 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
 
     @Override
     public void enableFaceDetection() {
-        mFaceDetectSupported = true;
+        mFaceDetectEnabled = true;
         showToast(getString(R.string.face_detection_enabled));
     }
 
     @Override
     public void disableFaceDetection() {
-        mFaceDetectSupported = false;
+        mFaceDetectEnabled = false;
         showToast(getString(R.string.face_detection_disabled));
     }
 
@@ -1096,6 +1107,4 @@ public class RoboCamFragment extends android.support.v4.app.Fragment
                     .create();
         }
     }
-
-
 }

@@ -33,6 +33,7 @@ import com.swetabh.camcontroller.ui.controller.WifiServiceListFragment;
 import com.swetabh.camcontroller.ui.controller.WifiServiceListPresenter;
 import com.swetabh.camcontroller.ui.main.MainFragment;
 import com.swetabh.camcontroller.ui.main.MainPresenter;
+import com.swetabh.camcontroller.ui.robocam.FaceDetectionFragment;
 import com.swetabh.camcontroller.ui.robocam.RoboCamFragment;
 import com.swetabh.camcontroller.ui.robocam.RoboCamPresenter;
 import com.swetabh.camcontroller.utils.ActivityUtil;
@@ -258,6 +259,15 @@ public class MainActivity extends AppCompatActivity
         attachBasicThings();
         mPresenterStack.push(mPresenter);
         ActivityUtil.addFragmentToActivity(mFragmentManager, mCurrentFragment, AppConstant.ROBO_CAM_FRAGMENT);
+    }
+
+    @Override
+    public void openFaceDetectorCamFragment() {
+        mCurrentFragment = Fragment.instantiate(this, FaceDetectionFragment.class.getName());
+        mPresenter = new RoboCamPresenter();
+        attachBasicThings();
+        mPresenterStack.push(mPresenter);
+        ActivityUtil.addFragmentToActivity(mFragmentManager, mCurrentFragment, AppConstant.FACE_DETECTION_CAM_FRAGMENT);
     }
 
     @Override

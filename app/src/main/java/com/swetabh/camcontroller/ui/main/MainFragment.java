@@ -43,6 +43,7 @@ public class MainFragment extends Fragment implements View.OnClickListener, Main
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
         view.findViewById(R.id.button_act_as_cam).setOnClickListener(this);
+        view.findViewById(R.id.button_act_as_face_detector_cam).setOnClickListener(this);
         view.findViewById(R.id.button_act_as_controller).setOnClickListener(this);
         return view;
     }
@@ -55,6 +56,12 @@ public class MainFragment extends Fragment implements View.OnClickListener, Main
                     mCommunicator.openRoboCamFragment();
                 }
                 Toast.makeText(mContext, "Cam Clicked", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.button_act_as_face_detector_cam:
+                if (mCommunicator != null) {
+                    mCommunicator.openFaceDetectorCamFragment();
+                }
+                Toast.makeText(mContext, "Face detector Cam Clicked", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.button_act_as_controller:
                 if (mCommunicator != null) {

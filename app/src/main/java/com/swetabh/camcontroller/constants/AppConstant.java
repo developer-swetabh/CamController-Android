@@ -10,7 +10,9 @@ public class AppConstant {
     public static final String MAIN_FRAGMENT = "main_fragment";
     public static final String WIFI_SERVICE_LIST_FRAGMENT = "wifi_service_list_fragment";
     public static final String ROBO_CAM_FRAGMENT = "robo_cam_fragment";
+    public static final String FACE_DETECTION_CAM_FRAGMENT = "face_detection_cam_fragment";
     public static final String CONTROLLER_FRAGMENT = "controller_fragment";
+    public static final String FRAGMENT_DIALOG = "dialog";
 
     //server port number
     public static final int SERVER_PORT = 7621;
@@ -32,5 +34,7 @@ public class AppConstant {
     public static final String ENABLE_FACE_DETECTION = "enable_face_detection";
     public static final String DISABLE_FACE_DETECTION = "disable_face_detection";
 
+    //camera permission request code
+    public static final int REQUEST_CAMERA_PERMISSION = 1;
 
 }

@@ -9,6 +9,7 @@
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
+    <string name="face_detector_alert">Please keep the app open 5-10 min,as it will download the face detector API</string>
     <string name="request_permission">Camera permission is required</string>
     <string name="intro_message">Camera 2 API demo</string>
     <string name="face_detection_disabled">Face detection disabled</string>

@@ -25,6 +25,8 @@ public interface MainContract {
         FragmentManager getFragmentManagerFromActivity();
 
         void openRoboCamFragment();
+
+        void openFaceDetectorCamFragment();
     }
 
     interface MainPresenterContract extends BasePresenter {
