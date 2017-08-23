@@ -46,6 +46,7 @@ public class FaceDetectionFragment extends Fragment
     private static final int RC_HANDLE_GMS = 9001;
     private static final String TAG = FaceDetectionFragment.class.getSimpleName();
     private final float SMILE_THRESHOLD = 0.5F;
+    private final Object mLock = new Object();
     private CameraSourcePreview mPreview;
     private GraphicOverlay mGraphicOverlay;
     private MainContract.RoboCamPresenterContract mPresenter;
@@ -53,6 +54,8 @@ public class FaceDetectionFragment extends Fragment
     private Context mContext;
     private CameraSource mCameraSource;
     private boolean mSmileToSnap = false;
+    private boolean mEligibleToTakePic = false;
+    private boolean mPictureAlreadyTaken = true;
 
     public FaceDetectionFragment() {
         // Required empty public constructor
@@ -134,6 +137,7 @@ public class FaceDetectionFragment extends Fragment
                 .setFacing(CameraSource.CAMERA_FACING_FRONT)
                 .setRequestedFps(30.0f)
                 .build();
+
     }
 
     //==============================================================================================
@@ -158,7 +162,7 @@ public class FaceDetectionFragment extends Fragment
                 mPreview.start(mCameraSource, mGraphicOverlay);
             } catch (IOException e) {
                 Log.e(TAG, "Unable to start camera source.", e);
-                mCameraSource.release();
+                mPreview.release();
                 mCameraSource = null;
             }
         }
@@ -212,26 +216,28 @@ public class FaceDetectionFragment extends Fragment
 
     @Override
     public void takePic() {
-        mCameraSource.takePicture(new CameraSource.ShutterCallback() {
-                                      @Override
-                                      public void onShutter() {
+        synchronized (mLock) {
+            mCameraSource.takePicture(new CameraSource.ShutterCallback() {
+                                          @Override
+                                          public void onShutter() {
 
-                                      }
-                                  },
-                new CameraSource.PictureCallback() {
-                    @Override
-                    public void onPictureTaken(byte[] bytes) {
-                        File file = ActivityUtil.createImageFile(mContext);
-                        FileOutputStream output = null;
-                        try {
-                            output = new FileOutputStream(file);
-                            output.write(bytes);
-                            Toast.makeText(mContext, "Picture taken", Toast.LENGTH_SHORT).show();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                                          }
+                                      },
+                    new CameraSource.PictureCallback() {
+                        @Override
+                        public void onPictureTaken(byte[] bytes) {
+                            File file = ActivityUtil.createImageFile(mContext);
+                            FileOutputStream output = null;
+                            try {
+                                output = new FileOutputStream(file);
+                                output.write(bytes);
+                                Toast.makeText(mContext, "Picture taken", Toast.LENGTH_SHORT).show();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     @Override
@@ -301,10 +307,21 @@ public class FaceDetectionFragment extends Fragment
         public void onUpdate(FaceDetector.Detections<Face> detectionResults, Face face) {
             mOverlay.add(mFaceGraphic);
             mFaceGraphic.updateFace(face);
-            Log.d(TAG, "smiling probability : " + face.getIsSmilingProbability());
-            if (mSmileToSnap && face.getIsSmilingProbability() > SMILE_THRESHOLD) {
-                takePic();
-                mFaceGraphic.updateFace(face);
+            if (mSmileToSnap) {
+                if (face.getIsSmilingProbability() > SMILE_THRESHOLD) {
+                    if (mEligibleToTakePic && !mPictureAlreadyTaken) {
+                        takePic();
+                        mPictureAlreadyTaken = true;
+                        mEligibleToTakePic = false;
+                    }
+                    mFaceGraphic.updateFace(face);
+                } else if (face.getIsSmilingProbability() < SMILE_THRESHOLD) {
+                    mPictureAlreadyTaken = false;
+                    mEligibleToTakePic = true;
+                }
+            }else {
+                mPictureAlreadyTaken = false;
+                mEligibleToTakePic = true;
             }
         }
 
