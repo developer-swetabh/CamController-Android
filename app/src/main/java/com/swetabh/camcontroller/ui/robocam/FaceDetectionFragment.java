@@ -252,13 +252,13 @@ public class FaceDetectionFragment extends Fragment
 
     @Override
     public void enableSmileToSnap() {
-        Toast.makeText(mContext,getString(R.string.smile_to_snap_is_enabled),Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.smile_to_snap_is_enabled), Toast.LENGTH_SHORT).show();
         mSmileToSnap = true;
     }
 
     @Override
     public void disableSmileToSnap() {
-        Toast.makeText(mContext,getString(R.string.smile_to_snap_is_disabled),Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getString(R.string.smile_to_snap_is_disabled), Toast.LENGTH_SHORT).show();
         mSmileToSnap = false;
     }
 
@@ -304,6 +304,7 @@ public class FaceDetectionFragment extends Fragment
             Log.d(TAG, "smiling probability : " + face.getIsSmilingProbability());
             if (mSmileToSnap && face.getIsSmilingProbability() > SMILE_THRESHOLD) {
                 takePic();
+                mFaceGraphic.updateFace(face);
             }
         }
 
